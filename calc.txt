@@ -1,12 +1,29 @@
-str_input = input("Delimoe: ")
+#simple div
 
+str_input = input("A: ")
 delimoe = int(str_input)
-print(type(delimoe))
+#print(type(delimoe))
 
-str_input2 = input("Delitel: ")
+operation = input("+ / * - ^: ")
 
+str_input2 = input("B: ")
 delitel = int(str_input2)
-print(type(delitel))
+#print(type(delitel))
 
-result = delimoe / delitel
+result = None
+
+if operation == '/':
+ result = delimoe / delitel
+elif operation == '+':
+ result = delimoe + delitel
+elif operation == '-':
+ result = delimoe - delitel
+elif operation == '*':
+ result = delimoe * delitel
+elif operation == '^':
+ result = delimoe ** delitel
+else:
+ result = "unknown"
+#print(type(result))
+
 print(result)
