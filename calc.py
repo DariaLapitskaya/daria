@@ -22,4 +22,4 @@ elif operation == '^':
 else:
  result = "unknown"
 #print(type(result))
-print(result)
+print("Result: " + str(result))
