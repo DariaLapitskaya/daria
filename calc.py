@@ -9,21 +9,22 @@ sign_B = ''
 str_B = ''
 
 operation = ''
+i = 0
 
-for letter in str_command:
-	print(letter)
-	if letter == '+' or letter == '-' or letter == '*' or letter == '/' or letter == '^':
+while i < len(str_command):
+	if str_command[i] == '+' or str_command[i] == '-' or str_command[i] == '*' or str_command[i] == '/' or str_command[i] == '^':
 		if str_A == '':
-			sign_A = letter
+			sign_A = str_command[i]
 		elif operation != '':
-			sign_B = letter
+			sign_B = str_command[i]
 		else:
-			operation = letter
+			operation = str_command[i]
 	else:	
 		if operation == '':
-			str_A = str_A + letter
+			str_A += str_command[i]
 		else:
-			str_B = str_B + letter
+			str_B += str_command[i]
+	i += 1
 
 str_A = sign_A + str_A.strip()
 str_B = sign_B + str_B.strip()
@@ -62,4 +63,3 @@ else:
 #print(type(result))
 
 print("Result: " + str(result))
-input("Нажмите Enter для выхода.")
