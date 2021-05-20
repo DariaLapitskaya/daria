@@ -1,15 +1,37 @@
 import telebot
 
-bot = telebot.TeleBot("1855601212:AAGVAVsvu6yHiXy8HIe5vNCugefhHTb6qYE")
+bot = telebot.TeleBot('1855601212:AAGVAVsvu6yHiXy8HIe5vNCugefhHTb6qYE')
 
-@bot.message_handler(commands=['start', 'help'])
-def send_welcome(message):
-	bot.reply_to(message, "Сделайте предварительный расчет, а финальный размер платежа получите на консультации")
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-	bot.reply_to(message, message.text)
+auto = ''
+time = ''
+mileage = ''
 
-bot.polling() 
+@bot.message_handler(content_types=['text'])
+
+def start(message):
+	bot.send_message(message.from_user.id, 'Шаг 1. Выберите автомобиль: Газель Некст или Газон Некст')
+	bot.register_next_step_handler(message, get_auto)
+
+def get_auto(message):
+	global auto
+	auto = message.text
+	bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+	bot.register_next_step_handler(message, get_time)
+
+def get_time(message):
+	global time
+	time = message.text
+	bot.send_message(message.from_user.id, 'Шаг 3. Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
+	bot.register_next_step_handler(message, get_mileage)
+
+def get_mileage(message):
+	global mileage
+	mileage = message.text
+
+bot.remove_webhook()
+			
+bot.polling(none_stop=True, interval=0)
+
 
 """
 хотим создать калькулятор аренды автомобиля
