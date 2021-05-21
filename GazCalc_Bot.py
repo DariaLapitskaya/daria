@@ -13,24 +13,27 @@ def start(message):
 	bot.register_next_step_handler(message, get_auto)
 
 def get_auto(message):
-	global auto
-	auto = message.text
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == "Газель Некст":
+		auto = 10
+	elif message.text == "Газон Некст":
+		auto = 15
+	else:
+		bot.send_message(message.from_user.id, 'Ошибка. Введите автомобиль еще раз')
 	bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
 	bot.register_next_step_handler(message, get_time)
 
 def get_time(message):
-	global time
 	time = message.text
 	bot.send_message(message.from_user.id, 'Шаг 3. Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
 	bot.register_next_step_handler(message, get_mileage)
 
 def get_mileage(message):
-	global mileage
 	mileage = message.text
 
 bot.remove_webhook()
 			
-bot.polling(none_stop=True, interval=0)
+bot.polling()
 
 
 """
