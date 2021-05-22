@@ -2,9 +2,9 @@ import telebot
 
 bot = telebot.TeleBot('1855601212:AAGVAVsvu6yHiXy8HIe5vNCugefhHTb6qYE')
 
-auto = ''
-time = ''
-mileage = ''
+auto = list()
+time = list()
+mileage = list()
 
 @bot.message_handler(content_types=['text'])
 
@@ -14,15 +14,15 @@ def start(message):
 
 def get_auto(message):
 	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == "Газель Некст":
-		auto = 10
-	elif message.text == "Газон Некст":
-		auto = 15
+	if (message.text == "Газель Некст"):	
+		bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+		bot.register_next_step_handler(message, get_time)
+	elif (message.text == "Газон Некст"):
+		bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+		bot.register_next_step_handler(message, get_time)
 	else:
 		bot.send_message(message.from_user.id, 'Ошибка. Введите автомобиль еще раз')
-	bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
-	bot.register_next_step_handler(message, get_time)
-
+	
 def get_time(message):
 	time = message.text
 	bot.send_message(message.from_user.id, 'Шаг 3. Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
@@ -30,8 +30,6 @@ def get_time(message):
 
 def get_mileage(message):
 	mileage = message.text
-
-bot.remove_webhook()
 			
 bot.polling()
 
