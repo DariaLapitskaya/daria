@@ -9,23 +9,40 @@ mileage = list()
 @bot.message_handler(content_types=['text'])
 
 def start(message):
-	bot.send_message(message.from_user.id, 'Шаг 1. Выберите автомобиль: Газель Некст или Газон Некст')
-	bot.register_next_step_handler(message, get_auto)
+	bot.send_message(message.from_user.id, 'Здравствуйте! Напишите "Старт" для начала расчета')
+	bot.register_next_step_handler(message, get_start)
+
+def get_start(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if (message.text == "Привет"):
+		bot.send_message(message.chat.id, 'Выберете автомобиль: Газель Некст или Газон Некст')
+		bot.register_next_step_handler(message, get_auto)
+	else:	
+		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
+		start(message)
 
 def get_auto(message):
 	bot.send_chat_action(message.from_user.id, 'typing')
 	if (message.text == "Газель Некст"):	
-		bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
 		bot.register_next_step_handler(message, get_time)
+		auto.append(10)
 	elif (message.text == "Газон Некст"):
-		bot.send_message(message.chat.id, 'Шаг 2. Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
 		bot.register_next_step_handler(message, get_time)
-	else:
-		bot.send_message(message.from_user.id, 'Ошибка. Введите автомобиль еще раз')
-	
+		auto.append(15)
+	else:	
+		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
+		get_start(message)
+
 def get_time(message):
-	time = message.text
-	bot.send_message(message.from_user.id, 'Шаг 3. Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
+	bot.send_chat_action(message.from_user.id, 'typing')
+	while message.text in range (6, 37):	
+		bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
+		bot.register_next_step_handler(message, get_mileage)
+		time.append(message.text)
+	else:	
+		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
 	bot.register_next_step_handler(message, get_mileage)
 
 def get_mileage(message):
