@@ -13,43 +13,80 @@ def start(message):
 	bot.register_next_step_handler(message, get_start)
 
 def get_start(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if (message.text == "Привет"):
-		bot.send_message(message.chat.id, 'Выберете автомобиль: Газель Некст или Газон Некст')
-		bot.register_next_step_handler(message, get_auto)
-	else:	
+	bot.send_chat_action(message.from_user.id, 'typing') 
+	start_correct = 'Старт'
+	while message.text != start_correct:
 		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
 		start(message)
-
+		break
+	else:	
+		bot.send_message(message.chat.id, 'Выберете автомобиль: Газель Некст или Газон Некст')
+		bot.register_next_step_handler(message, get_auto)
+	
 def get_auto(message):
 	bot.send_chat_action(message.from_user.id, 'typing')
-	if (message.text == "Газель Некст"):	
-		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
-		bot.register_next_step_handler(message, get_time)
-		auto.append(10)
-	elif (message.text == "Газон Некст"):
-		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
-		bot.register_next_step_handler(message, get_time)
-		auto.append(15)
-	else:	
+	auto_correct = 'Газель Некст' or 'Газон Некст'
+	while message.text != auto_correct:
 		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-		get_start(message)
+		break
+	else:	
+		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+		bot.register_next_step_handler(message, get_time)
 
 def get_time(message):
 	bot.send_chat_action(message.from_user.id, 'typing')
-	while message.text in range (6, 37):	
-		bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
-		bot.register_next_step_handler(message, get_mileage)
-		time.append(message.text)
-	else:	
-		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-	bot.register_next_step_handler(message, get_mileage)
+	i = int(message.text)
+	a = 1
+	while a==1:
+		if i in range (6, 37): 	
+			bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
+			bot.register_next_step_handler(message, get_mileage)
+			time.append(i)
+		else:	
+			bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')	
+		break	
 
 def get_mileage(message):
-	mileage = message.text
+	bot.send_chat_action(message.from_user.id, 'typing')
+	a = 1
+	while a==1:
+		if (message.text == "30000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)		
+			mileage.append(10)
+		elif (message.text == "40000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)	
+			mileage.append(15)
+		elif (message.text == "50000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(20)
+		elif (message.text == "60000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(25)
+		elif (message.text == "70000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(30)
+		elif (message.text == "80000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(35)
+		elif (message.text == "90000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(40)
+		elif (message.text == "100000"):
+			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
+			bot.register_next_step_handler(message, get_add)
+			mileage.append(45)
+		else:	
+			bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
+		break	
 			
 bot.polling()
-
 
 """
 хотим создать калькулятор аренды автомобиля
