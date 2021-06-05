@@ -1,90 +1,141 @@
 import telebot
+from telebot import types
 
 bot = telebot.TeleBot('1855601212:AAGVAVsvu6yHiXy8HIe5vNCugefhHTb6qYE')
-
-auto = list()
-time = list()
-mileage = list()
 
 @bot.message_handler(content_types=['text'])
 
 def start(message):
-	bot.send_message(message.from_user.id, 'Здравствуйте! Напишите "Старт" для начала расчета')
-	bot.register_next_step_handler(message, get_start)
-
-def get_start(message):
-	bot.send_chat_action(message.from_user.id, 'typing') 
-	start_correct = 'Старт'
-	while message.text != start_correct:
-		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-		start(message)
-		break
-	else:	
-		bot.send_message(message.chat.id, 'Выберете автомобиль: Газель Некст или Газон Некст')
-		bot.register_next_step_handler(message, get_auto)
+	bot.send_message(message.from_user.id, 'Напишите "Старт" для начала расчета')
+	bot.register_next_step_handler(message, get_auto) 
 	
 def get_auto(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	auto_correct = 'Газель Некст' or 'Газон Некст'
-	while message.text != auto_correct:
-		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-		break
-	else:	
-		bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля в месяцах: от 6 до 36 месяцев')
+	if message.text == 'Старт':
+		keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+		button_auto1 = types.KeyboardButton('Газель Некст')
+		button_auto2 = types.KeyboardButton('Газон Некст')
+		keyboard.add(button_auto1, button_auto2)
+		bot.send_message(message.chat.id, 'Выберете автомобиль', reply_markup = keyboard)
 		bot.register_next_step_handler(message, get_time)
+	else:
+		bot.send_message(message.from_user.id, 'Ошибка. Попробуйте еще раз')
 
 def get_time(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	i = int(message.text)
-	a = 1
-	while a==1:
-		if i in range (6, 37): 	
-			bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
-			bot.register_next_step_handler(message, get_mileage)
-			time.append(i)
-		else:	
-			bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')	
-		break	
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+	button_time1 = types.KeyboardButton('6 месяцев')
+	button_time2 = types.KeyboardButton('1 год')
+	button_time3 = types.KeyboardButton('1 год 6 месяцев')
+	button_time4 = types.KeyboardButton('2 года')
+	button_time5 = types.KeyboardButton('1 год 6 месяцев')
+	button_time6 = types.KeyboardButton('2 года')
+	button_time7 = types.KeyboardButton('2 года 6 месяцев')
+	button_time8 = types.KeyboardButton('3 года')
+	keyboard.add(button_time1, button_time2, button_time3, button_time4, button_time5, button_time6, button_time7, button_time8)
+	bot.send_message(message.chat.id, 'Укажите срок аренды автомобиля', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_mileage)
 
 def get_mileage(message):
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_mileage1 = types.KeyboardButton('30 000')
+	button_mileage2 = types.KeyboardButton('40 000')
+	button_mileage3 = types.KeyboardButton('50 000')
+	button_mileage4 = types.KeyboardButton('60 000')
+	button_mileage5 = types.KeyboardButton('70 000')
+	button_mileage6 = types.KeyboardButton('80 000')
+	button_mileage7 = types.KeyboardButton('90 000')
+	button_mileage8 = types.KeyboardButton('100 000')
+	keyboard.add(button_mileage1, button_mileage2, button_mileage3, button_mileage4, button_mileage5, button_mileage6, button_mileage7, button_mileage8)
+	bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_mileagee)
+			
+def get_mileagee(message):
 	bot.send_chat_action(message.from_user.id, 'typing')
-	a = 1
-	while a==1:
-		if (message.text == "30000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)		
-			mileage.append(10)
-		elif (message.text == "40000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)	
-			mileage.append(15)
-		elif (message.text == "50000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(20)
-		elif (message.text == "60000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(25)
-		elif (message.text == "70000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(30)
-		elif (message.text == "80000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(35)
-		elif (message.text == "90000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(40)
-		elif (message.text == "100000"):
-			bot.send_message(message.chat.id, 'Выберете дополнительные услуги: GAZ CONNECT, подменный парк, консьерж-сервис, защита от поломок, коучинг водителей')
-			bot.register_next_step_handler(message, get_add)
-			mileage.append(45)
-		else:	
-			bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-		break	
+	m = list(range(30000, 110000, 10000))
+	if message.text != m:
+		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')	
+		return
+		bot.send_message(message.from_user.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу GAZ CONNECT')
+		bot.register_next_step_handler(message, get_add1)
+
+def get_add1(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == 'Да':
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу подменного парка')
+		bot.register_next_step_handler(message, get_add2)
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу подменного парка')
+		bot.register_next_step_handler(message, get_add2)
+
+def get_add2(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == 'Да':
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу консьерж-сервиса')
+		bot.register_next_step_handler(message, get_add3)
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу консьерж-сервиса')
+		bot.register_next_step_handler(message, get_add3)
+
+def get_add3(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == 'Да':
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу защиты от поломок')
+		bot.register_next_step_handler(message, get_add4)
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу защиты от поломок')
+		bot.register_next_step_handler(message, get_add4)
+
+def get_add4(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == 'Да':
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу обучения водителей')
+		bot.register_next_step_handler(message, get_add5)
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Следующий шаг...')
+		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу обучения водителей')
+		bot.register_next_step_handler(message, get_add5)
+
+def get_add5(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text == 'Да':
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
+		bot.register_next_step_handler(message, finish)
+	else:
+		bot.send_message(message.from_user.id, 'Отлично!')
+		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
+		bot.register_next_step_handler(message, finish)
+
+def finish(message):
+	bot.send_chat_action(message.from_user.id, 'typing')
+	if message.text != 'Итог':
+		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
+		return
+		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
+	else:	
+		bot.send_message(message.from_user.id, 'Отлично!')
 			
 bot.polling()
 
