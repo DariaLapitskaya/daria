@@ -50,92 +50,64 @@ def get_mileage(message):
 	button_mileage8 = types.KeyboardButton('100 000')
 	keyboard.add(button_mileage1, button_mileage2, button_mileage3, button_mileage4, button_mileage5, button_mileage6, button_mileage7, button_mileage8)
 	bot.send_message(message.chat.id, 'Определите необходимый средний пробег автомобиля за год', reply_markup = keyboard)
-	bot.register_next_step_handler(message, get_mileagee)
+	bot.register_next_step_handler(message, get_add1)
 			
-def get_mileagee(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	m = list(range(30000, 110000, 10000))
-	if message.text != m:
-		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')	
-		return
-		bot.send_message(message.from_user.id, 'Определите необходимый средний пробег автомобиля за год: от 30000 до 100000')
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу GAZ CONNECT')
-		bot.register_next_step_handler(message, get_add1)
-
 def get_add1(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == 'Да':
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу подменного парка')
-		bot.register_next_step_handler(message, get_add2)
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу подменного парка')
-		bot.register_next_step_handler(message, get_add2)
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_add1 = types.KeyboardButton('Да')
+	button_add2 = types.KeyboardButton('Нет')
+	keyboard.add(button_add1, button_add2)
+	bot.send_message(message.chat.id, 'Хотите добавить услугу GAZ CONNECT?', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_add2)
 
 def get_add2(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == 'Да':
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу консьерж-сервиса')
-		bot.register_next_step_handler(message, get_add3)
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу консьерж-сервиса')
-		bot.register_next_step_handler(message, get_add3)
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_add3 = types.KeyboardButton('Да')
+	button_add4 = types.KeyboardButton('Нет')
+	keyboard.add(button_add3, button_add4)
+	bot.send_message(message.chat.id, 'Хотите добавить услугу подменного парка?', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_add3)
 
 def get_add3(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == 'Да':
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу защиты от поломок')
-		bot.register_next_step_handler(message, get_add4)
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу защиты от поломок')
-		bot.register_next_step_handler(message, get_add4)
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_add5 = types.KeyboardButton('Да')
+	button_add6 = types.KeyboardButton('Нет')
+	keyboard.add(button_add5, button_add6)
+	bot.send_message(message.chat.id, 'Хотите добавить услугу консьерж-сервиса?', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_add4)
 
 def get_add4(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == 'Да':
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу обучения водителей')
-		bot.register_next_step_handler(message, get_add5)
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Следующий шаг...')
-		bot.send_message(message.from_user.id, 'Напишите "Да", если хотите добавить услугу обучения водителей')
-		bot.register_next_step_handler(message, get_add5)
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_add7 = types.KeyboardButton('Да')
+	button_add8 = types.KeyboardButton('Нет')
+	keyboard.add(button_add7, button_add8)
+	bot.send_message(message.chat.id, 'Хотите добавить услугу защиты от поломок?', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_add5)
 
 def get_add5(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text == 'Да':
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
-		bot.register_next_step_handler(message, finish)
-	else:
-		bot.send_message(message.from_user.id, 'Отлично!')
-		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
-		bot.register_next_step_handler(message, finish)
+	bot.send_message(message.from_user.id, 'Отлично!')
+	bot.send_message(message.from_user.id, 'Следующий шаг...')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_add9 = types.KeyboardButton('Да')
+	button_add10 = types.KeyboardButton('Нет')
+	keyboard.add(button_add9, button_add10)
+	bot.send_message(message.chat.id, 'Хотите добавить услугу обучения водителей?', reply_markup = keyboard)
+	bot.register_next_step_handler(message, get_finish)
 
-def finish(message):
-	bot.send_chat_action(message.from_user.id, 'typing')
-	if message.text != 'Итог':
-		bot.send_message(message.chat.id, 'Ошибка. Попробуйте еще раз')
-		return
-		bot.send_message(message.from_user.id, 'Напишите "Итог" для получения предварительной суммы аренды')
-	else:	
-		bot.send_message(message.from_user.id, 'Отлично!')
+def get_finish(message):
+	bot.send_message(message.from_user.id, 'Отлично!')
+	keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)	
+	button_finish = types.KeyboardButton('Итог')
+	keyboard.add(button_finish)
+	bot.send_message(message.chat.id, 'Нижмите "Итог", чтобы получить предварительную сумму аренды', reply_markup = keyboard)
 			
 bot.polling()
 
